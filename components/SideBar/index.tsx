@@ -1,11 +1,11 @@
 /* eslint-disable react/jsx-key */
 /* eslint-disable react/react-in-jsx-scope */
-import { Link, Avatar, Divider, Flex, Heading, IconButton, Text, Icon, MenuButton, Menu } from "@chakra-ui/react";
+import { Avatar, Divider, Flex, Heading, IconButton, Text, Menu } from "@chakra-ui/react";
 import { useState } from "react";
 import { FiAperture, FiArchive, FiFileText, FiHome, FiLogOut, FiMenu, FiPrinter, FiSliders, FiUploadCloud, FiUser } from 'react-icons/fi'
 import { useRouter } from "next/router";
 import { useMemo } from 'react'
-import classNames from "classnames";
+import NavItem from "./NavItem";
 
 const menuItems = [
     { id: 1, label: "Tela Principal", icon: FiHome, link: "/" },
@@ -23,7 +23,6 @@ const menuItems = [
 export default function SideBar() {
     const [navSize, changeNavSize] = useState("large")
     const router = useRouter();
-    const [toggleCollapse, setToggleCollapse] = useState(false);
     const [isCollapsible, setIsCollapsible] = useState(false);
 
     const activeMenu = useMemo(
@@ -35,21 +34,9 @@ export default function SideBar() {
         return activeMenu?.id === menu.id
 
     }
-    const getNavItemClasses = (menu: { id: number; label: string; link: string; } | { id: number; label: string; link: string; } | { id: number; label: string; link: string; } | { id: number; label: string; link: string; } | { id: number; label: string; link: string; } | { id: number; label: string; link: string; } | { id: number; label: string; link: string; } | { id: number; label: string; link: string; } | { id: number; label: string; link: string; }) => {
-        return classNames(
-            `flex items-center cursor-pointer hover:${activeMenu?.id === menu.id ? "#AEC8CA" : "transparent"} rounded w-full overflow-hidden whitespace-nowrap`,
-            {
-                ["bg-light-lighter"]: activeMenu?.id === menu.id,
-            }
-        );
-    };
 
     const onMouseOver = () => {
         setIsCollapsible(!isCollapsible);
-    };
-
-    const handleSidebarToggle = () => {
-        setToggleCollapse(!toggleCollapse);
     };
 
     return (
@@ -65,7 +52,6 @@ export default function SideBar() {
             shadow="0 4px 12px 0 rgb(0,0,0,0.05)"
             onMouseEnter={onMouseOver}
             onMouseLeave={onMouseOver}
-            style={{ transition: "width 300ms cubic-bezier(0.2, 0, 0, 1) 0s" }}
         >
             <Flex
                 as="nav"
@@ -91,40 +77,26 @@ export default function SideBar() {
                     {menuItems.map(({ icon: IconExibir, ...menu }) => {
                         const ativo = getAtivo(menu);
                         return (
-                            <Flex >
-                                <Link key={menu.id}
-                                    href={menu.link}
-                                    w={navSize == "large" ? "200px" : "0px"}
-                                    p={3}
-                                    bg={ativo ? "#AEC8CA" : "transparent"}
-                                    borderRadius={8}
-                                    _hover={{ textDecor: 'none', backgroundColor: '#AEC8CA' }}>
-                                    <MenuButton key={menu.id} w="100%">
-                                        <Flex >
-                                            <Icon as={IconExibir} fontSize="xl" />
-                                            <Text display={navSize == "small" ? "none" : "flex"} ml={5}>{menu.label}</Text>
-                                        </Flex>
-                                    </MenuButton>
-                                </Link>
-                            </Flex>
+                            <NavItem title={menu.label} navSize={navSize} icon={IconExibir} active={ativo} url={menu.link} id={menu.id} />
                         );
                     })}
                 </Menu>
             </Flex>
 
             <Flex
+                key="flex-inferior"
                 align={navSize == "small" ? "center" : "flex-start"}
                 direction="column"
                 w="100%"
                 mb={4}
-                p="5%"
+                p="1%"
             >
-                <Divider display={navSize == "small" ? "none" : "flex"} />
-                <Flex align="center" mt={4}>
-                    <Avatar size="sm" />
-                    <Flex direction="column" display={navSize == "small" ? "none" : "flex"} ml={4}>
-                        <Heading as="h3" size="sm">Raphael Pizzo</Heading>
-                        <Text color="gray">Admin</Text>
+                <Divider key="ssss" display={navSize == "small" ? "none" : "flex"} />
+                <Flex key="flex-inferior-out" align="center" mt={4}>
+                    <Avatar key="avatar" size="sm" />
+                    <Flex key="ultimoflex" direction="column" display={navSize == "small" ? "none" : "flex"} ml={4}>
+                        <Heading key="heading" as="h3" size="sm">Raphael Pizzo</Heading>
+                        <Text key="text" color="gray">Admin</Text>
                     </Flex>
                 </Flex>
             </Flex>
