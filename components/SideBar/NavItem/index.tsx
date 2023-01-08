@@ -3,7 +3,6 @@ import { Flex, Link, Menu, MenuButton, Icon, Text, MenuList } from "@chakra-ui/r
 import { IconType } from "react-icons/lib";
 import NavHoverBox from "../NavHoverBox";
 import { useState } from "react";
-
 interface props {
     navSize: string,
     title: string,
@@ -12,7 +11,9 @@ interface props {
 }
 
 export default function NavItem({ navSize, title, icon, description }: props) {
-    const [active, changeActive] = useState(false)
+    const [active] = useState(false)
+
+
     return (
         <Flex
             align={navSize == "small" ? "center" : "flex-start"}
@@ -28,9 +29,7 @@ export default function NavItem({ navSize, title, icon, description }: props) {
                     borderRadius={8}
                     _hover={{ textDecor: 'none', backgroundColor: '#AEC8CA' }}
                 >
-                    <MenuButton w="100%" onClick={() => {
-                        changeActive(!active)
-                    }}>
+                    <MenuButton w="100%">
                         <Flex>
                             <Icon as={icon} color={active ? "#82AAAD" : "gray.500"} fontSize="xl" />
                             <Text display={navSize == "small" ? "none" : "flex"} ml={5}>{title}</Text>
